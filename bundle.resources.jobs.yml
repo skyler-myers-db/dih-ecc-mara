@@ -39,7 +39,7 @@ resources:
             - task_key: load_dataflow_spec_tables
           run_if: ALL_SUCCESS
           pipeline_task:
-            pipeline_id: ${resources.pipelines.dlt_raw.id}
+            pipeline_id: ${resources.pipelines.dih_ecc_mara_raw.id}
             full_refresh: true
           max_retries: 2
           min_retry_interval_millis: 600000
@@ -56,7 +56,7 @@ resources:
             - task_key: dlt_raw
           run_if: ALL_SUCCESS
           pipeline_task:
-            pipeline_id: ${resources.pipelines.dlt_trusted.id}
+            pipeline_id: ${resources.pipelines.dih_ecc_mara_trusted.id}
             full_refresh: true
           max_retries: 2
           min_retry_interval_millis: 600000
