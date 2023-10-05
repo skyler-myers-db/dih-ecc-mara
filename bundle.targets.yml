@@ -38,7 +38,7 @@ targets:
       user_name: skyler.myers@sobeys.com
     resources:
       jobs:
-        wf_dih_meta_demo:
+        wf_dih_ecc_mara:
           job_clusters:
           - job_cluster_key: Job_cluster
             new_cluster:
@@ -46,7 +46,7 @@ targets:
               num_workers: 8
     
       pipelines:
-        dih_meta_demo_bronze:
+        dih_ecc_mara_raw:
           clusters: 
             - label: default
               autoscale:
@@ -56,7 +56,7 @@ targets:
           development: false
           photon: true
 
-        dih_meta_demo_silver:
+        dih_ecc_mara_trusted:
           clusters: 
             - label: default
               autoscale:
