@@ -27,7 +27,7 @@ targets:
     # to a path that is not specific to the current user.
     mode: production
     workspace:
-      host: https://adb-2592746677497280.0.azuredatabricks.net
+      host: https://adb-6192720523591547.7.azuredatabricks.net
       root_path: /Shared/.bundle/prod/${bundle.name}
     git:
       branch: main
