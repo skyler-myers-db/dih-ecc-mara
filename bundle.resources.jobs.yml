@@ -1,11 +1,11 @@
 # The main job for sobeys
 resources:
   jobs:
-    wf_dih_meta_demo:
+    wf_dih_ecc_mara:
       run_as:
         user_name: skyler.myers@sobeys.com
 
-      name: wf_dih_meta_demo
+      name: wf_dih_ecc_mara
 
       # schedule:
       #   quartz_cron_expression: '44 37 8 * * ?'
@@ -18,11 +18,11 @@ resources:
       max_concurrent_runs: 1
 
       tasks:
-        - task_key: dataflow_spec
+        - task_key: load_dataflow_spec_tables
           run_if: ALL_SUCCESS
           notebook_task:
-            notebook_path: "/Repos/skyler.myers@sobeys.com/sobeys_dih_meta/integration-tests/run_onboarding"
-            source: WORKSPACE
+            notebook_path: src/run_onboarding
+            source: GIT
           job_cluster_key: Job_cluster
           max_retries: 2
           min_retry_interval_millis: 600000
@@ -34,12 +34,12 @@ resources:
             no_alert_for_canceled_runs: false
             alert_on_last_attempt: false
             
-        - task_key: dlt_bronze
+        - task_key: dlt_raw
           depends_on:
-            - task_key: dataflow_spec
+            - task_key: load_dataflow_spec_tables
           run_if: ALL_SUCCESS
           pipeline_task:
-            pipeline_id: ${resources.pipelines.dlt_bronze.id}
+            pipeline_id: ${resources.pipelines.dlt_raw.id}
             full_refresh: true
           max_retries: 2
           min_retry_interval_millis: 600000
@@ -51,12 +51,12 @@ resources:
             no_alert_for_canceled_runs: false
             alert_on_last_attempt: false
         
-        - task_key: dlt_silver
+        - task_key: dlt_trusted
           depends_on:
-            - task_key: dlt_bronze
+            - task_key: dlt_raw
           run_if: ALL_SUCCESS
           pipeline_task:
-            pipeline_id: ${resources.pipelines.dlt_silver.id}
+            pipeline_id: ${resources.pipelines.dlt_trusted.id}
             full_refresh: true
           max_retries: 2
           min_retry_interval_millis: 600000
@@ -70,11 +70,14 @@ resources:
         
         - task_key: ssot
           depends_on:
-            - task_key: dlt_silver
+            - task_key: dlt_trusted
           run_if: ALL_SUCCESS
           notebook_task:
-            notebook_path: "/Repos/skyler.myers@sobeys.com/sobeys_dih_meta/src/ssot"
-            source: WORKSPACE
+            notebook_path: src/ssot
+            base_parameters:
+              path_to_json: >-
+                /Workspace/Repos/skyler.myers@sobeys.com/sobeys_dih_meta/integration-tests/sample.json
+            source: GIT
           job_cluster_key: Job_cluster
           max_retries: 2
           min_retry_interval_millis: 600000
@@ -98,7 +101,7 @@ resources:
       job_clusters:
         - job_cluster_key: Job_cluster
           new_cluster:
-            spark_version: 14.0.x-scala2.12
+            spark_version: 14.1.x-scala2.12
             spark_conf:
               spark.databricks.delta.preview.enabled: 'true'
               spark.sql.shuffle.partitions: 'auto'
@@ -106,13 +109,17 @@ resources:
               first_on_demand: 1
               availability: ON_DEMAND_AZURE
               spot_bid_max_price: -1
-            node_type_id: Standard_D3_v2
-            spark_env_vars:
-              PYSPARK_PYTHON: "/databricks/python3/bin/python3"
+            node_type_id: Standard_F4
             enable_elastic_disk: true
             data_security_mode: SINGLE_USER
+            runtime_engine: STANDARD
             autoscale:
                 min_workers: 1
                 max_workers: 2
+
+      git_source:
+        git_url: 'https://github.com/skyler-myers-db/dih-ecc-mara.git'
+        git_provider: gitHub
+        git_branch: dev
 
       format: MULTI_TASK
