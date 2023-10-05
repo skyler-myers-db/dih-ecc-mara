@@ -1,0 +1,55 @@
+# The main pipeline for sobeys
+resources:
+  pipelines:
+    dih_meta_demo_bronze:
+      pipeline_type: WORKSPACE
+      clusters: 
+        - label: default
+          autoscale:
+            min_workers: 1
+            max_workers: 2
+            mode: ENHANCED
+      development: true
+      continuous: false
+      channel: PREVIEW
+      photon: false
+      name: dih_meta_demo_bronze
+      # target: sobeys_${bundle.environment}
+      libraries:
+        - notebook:
+            path: "/Repos/skyler.myers@sobeys.com/sobeys_dih_meta/integration-tests/pipeline_runner"
+      edition: ADVANCED
+      catalog: dihpoc
+      configuration:
+        layer: bronze
+        bronze.dataflowspecTable: dihpoc.dataflowspec_tables.bronze_dataflowspec_table
+        bronze.group: A1
+      target: raw
+      data_sampling: false
+
+      # configuration:
+      #   bundle.sourcePath: /Workspace/${workspace.file_path}/src
+    dih_meta_demo_silver:
+      pipeline_type: WORKSPACE
+      clusters: 
+        - label: default
+          autoscale:
+            min_workers: 1
+            max_workers: 2
+            mode: ENHANCED
+      continuous: false
+      channel: PREVIEW
+      photon: false
+      name: dih_meta_demo_silver
+      # target: sobeys_${bundle.environment}
+      libraries:
+        - notebook:
+            path: "/Repos/skyler.myers@sobeys.com/sobeys_dih_meta/integration-tests/pipeline_runner"
+      edition: ADVANCED
+      catalog: dihpoc
+      configuration:
+        layer: silver
+        silver.dataflowspecTable: dihpoc.dataflowspec_tables.silver_dataflowspec_table
+        silver.group: A1
+      target: trusted
+      data_sampling: false
