@@ -15,7 +15,7 @@ resources:
       photon: false
       name: dih_ecc_mara_raw
       libraries:
-        - file:
+        - notebook:
             path: "./src/pipeline_runner.ipynb"
       edition: ADVANCED
       catalog: dihpoc
@@ -42,7 +42,7 @@ resources:
       name: dih_ecc_mara_trusted
       # target: sobeys_${bundle.environment}
       libraries:
-        - file:
+        - notebook:
             path: "./src/pipeline_runner.ipynb"
       edition: ADVANCED
       catalog: dihpoc
