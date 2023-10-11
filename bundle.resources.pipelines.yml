@@ -15,8 +15,8 @@ resources:
       photon: false
       name: dih_ecc_mara_raw
       libraries:
-        - notebook:
-            path: "/Repos/skyler.myers@sobeys.com/dih-ecc-mara/src/pipeline_runner"
+        - file:
+            path: "./src/pipeline_runner.ipynb"
       edition: ADVANCED
       catalog: dihpoc
       configuration:
@@ -42,8 +42,8 @@ resources:
       name: dih_ecc_mara_trusted
       # target: sobeys_${bundle.environment}
       libraries:
-        - notebook:
-            path: "/Repos/skyler.myers@sobeys.com/dih-ecc-mara/src/pipeline_runner"
+        - file:
+            path: "./src/pipeline_runner.ipynb"
       edition: ADVANCED
       catalog: dihpoc
       configuration:
