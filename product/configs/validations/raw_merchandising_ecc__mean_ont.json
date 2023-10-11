@@ -1,0 +1,8 @@
+{
+    "expect_or_drop":{
+       "no_rescued_data":"_rescued_data IS NULL",
+       "valid_id":"MATNR IS NOT NULL",
+       "valid_length":"LENGTH(ERSDA) == 8",
+       "valid_stock": "stock >= 0"
+    }
+ }

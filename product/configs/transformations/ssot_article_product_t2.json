@@ -1,0 +1,13 @@
+[
+    {
+        "target_table": "t2",
+        "target_partition_cols": ["date"],
+        "select_exp": [
+            "MATNR::BIGINT AS material_number",
+            "TO_DATE(ERSDA, 'yyyyMMdd') AS ers_date",
+            "* EXCEPT(MATNR, ERSDA, _rescued_data)",
+            "CURRENT_TIMESTAMP() AS creation_timestamp"
+        ],
+        "where_clause": ["BSTME IS NOT NULL AND EAN11 IS NOT NULL"]
+    }
+  ]

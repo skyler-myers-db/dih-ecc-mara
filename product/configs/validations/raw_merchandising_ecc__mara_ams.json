@@ -1,0 +1,6 @@
+{
+    "expect_or_drop":{
+       "no_rescued_data":"_rescued_data IS NULL",
+       "valid_date":"recorded_date > '1900-01-01"
+    }
+ }

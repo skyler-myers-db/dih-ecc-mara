@@ -1,0 +1,12 @@
+[
+    {
+        "target_table": "mara",
+        "target_partition_cols": [""],
+        "select_exp": [
+            "sales",
+            "units_sold",
+            "item_number"
+        ],
+        "where_clause": [""]
+    }
+  ]

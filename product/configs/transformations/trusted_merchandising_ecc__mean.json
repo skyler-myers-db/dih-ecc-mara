@@ -1,0 +1,10 @@
+[
+    {
+        "target_table": "mean",
+        "target_partition_cols": [""],
+        "select_exp": [
+            "* EXCEPT(out_of_stock)"
+        ],
+        "where_clause": ["BSTME IS NOT NULL AND EAN11 IS NOT NULL"]
+    }
+  ]

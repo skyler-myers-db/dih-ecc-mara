@@ -1,0 +1,13 @@
+[
+    {
+        "target_table": "t1",
+        "target_partition_cols": [""],
+        "select_exp": [
+            "*"
+        ],
+        "where_clause": [
+            "recorded_date > 2020-01-01",
+            "price > 1000"
+        ]
+    }
+  ]

@@ -1,0 +1,5 @@
+{
+    "expect_or_drop":{
+       "valid_percentage":"sales_percent BETWEEN 0.0 and 100.0"
+    }
+ }
