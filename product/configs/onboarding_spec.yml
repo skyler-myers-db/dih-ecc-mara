@@ -1,63 +1,44 @@
----
-- data_flow_id: '100'
-  data_flow_group: Product
-  source_format: cloudFiles
+data_flow_group: Product
+data_flow_id: "100"
+Raw:
+  raw_data_quality_expectations_json: /Volumes/dihpoc/testing/configurations/raw_expectations.json
+  raw_catalog: dihpoc
+  raw_schema: merchandising
+  raw_table: mara_raw
+  raw_quarantine_catalog: dihpoc
+  raw_quarantine_schema: quarantine
+  raw_quarantine_table: mara_raw_quarantine
   source_details:
-    source_path_dev: abfss://landing@sbyccdevemdplandsa.dfs.core.windows.net/sobeys/merchandising/ecc/MARA/2023/02/17/
-  bronze_database_dev: dihpoc.merchandising
-  bronze_table: mara
-  bronze_table_path_dev: dbfs://
-  bronze_reader_options:
-    cloudFiles.format: csv
-    cloudFiles.inferColumnTypes: 'false'
-    cloudFiles.rescuedDataColumn: _rescued_data
-    header: 'true'
-  bronze_data_quality_expectations_json_dev: "./validations/raw_merchandising_ecc__mara_ams.json"
-  bronze_quarantine_table: mara_raw
-  bronze_database_quarantine_dev: dihpoc.quarantine_tables
-  bronze_quarantine_table_path_dev: dbfs://
-  silver_table_path_dev: dbfs://
-  silver_database_dev: dihpoc.trusted
-  silver_table: t1
-  silver_partition_columns: ''
-  silver_cdc_apply_changes:
-    keys:
-    - material_number
-    sequence_by: creation_timestamp
-    scd_type: '1'
-    except_column_list:
-    - _rescued_data
-  silver_join_configuration: ''
-  silver_join_database: dihpoc.trusted
-  silver_transformation_json_dev: "./transformations/ssot_article_product_t1.json"
-- data_flow_id: '101'
-  data_flow_group: Product
+    source_path: abfss://landing@sbyccdevemdplandsa.dfs.core.windows.net/sobeys/merchandising/ecc/MARA/2023/02/17/
   source_format: cloudFiles
-  source_details:
-    source_path_dev: abfss://landing@sbyccdevemdplandsa.dfs.core.windows.net/sobeys/merchandising/ecc/MARA/2023/02/17/
-  bronze_database_dev: dihpoc.merchandising
-  bronze_table: mean
-  bronze_table_path_dev: dbfs://
-  bronze_reader_options:
+  source_reader_options:
     cloudFiles.format: csv
-    cloudFiles.inferColumnTypes: 'false'
+    cloudFiles.inferColumnTypes: "true"
     cloudFiles.rescuedDataColumn: _rescued_data
-    header: 'true'
-  bronze_data_quality_expectations_json_dev: "./validations/raw_merchandising_ecc__mean_ams.json"
-  bronze_quarantine_table: mean_raw
-  bronze_database_quarantine_dev: dihpoc.quarantine_tables
-  bronze_quarantine_table_path_dev: dbfs://
-  silver_table_path_dev: dbfs://
-  silver_database_dev: dihpoc.trusted
-  silver_table: t2
-  silver_partition_columns: ''
-  silver_cdc_apply_changes:
+    header: "true"
+Trusted:
+  trusted_cdc_apply_changes:
     keys:
-    - material_number
+      - material_number
     sequence_by: creation_timestamp
-    scd_type: '1'
+    scd_type: "1"
     except_column_list:
-    - _rescued_data
-  silver_join_configuration: ''
-  silver_join_database: dihpoc.trusted
-  silver_transformation_json_dev: "./transformations/ssot_article_product_t2.json"
+      - _rescued_data
+  source_catalog: dihpoc
+  source_schema: merchandising
+  source_table: mara_raw
+  trusted_catalog: dihpoc
+  trusted_schema: merchandising
+  trusted_table: mara_trusted
+  trusted_join_configuration: "{}"
+  trusted_join_catalog: dihpoc
+  trusted_join_schema: testing
+  trusted_partition_columns: ""
+  trusted_transformation_json: /Volumes/dihpoc/testing/configurations/silver_transformations.json
+SSOT:
+  source_catalog: dihpoc
+  source_schema: merchandising
+  source_table: mara_trusted
+  sequence_col: created_timestamp
+  checkpoint_location: /Volumes/dihpoc/testing/checkpoint/
+  targets: /Volumes/dihpoc/testing/configurations/ssot_targets.json
