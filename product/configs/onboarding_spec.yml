@@ -1,0 +1,63 @@
+---
+- data_flow_id: '100'
+  data_flow_group: Product
+  source_format: cloudFiles
+  source_details:
+    source_path_dev: abfss://landing@sbyccdevemdplandsa.dfs.core.windows.net/sobeys/merchandising/ecc/MARA/2023/02/17/
+  bronze_database_dev: dihpoc.merchandising
+  bronze_table: mara
+  bronze_table_path_dev: dbfs://
+  bronze_reader_options:
+    cloudFiles.format: csv
+    cloudFiles.inferColumnTypes: 'false'
+    cloudFiles.rescuedDataColumn: _rescued_data
+    header: 'true'
+  bronze_data_quality_expectations_json_dev: "./validations/raw_merchandising_ecc__mara_ams.json"
+  bronze_quarantine_table: mara_raw
+  bronze_database_quarantine_dev: dihpoc.quarantine_tables
+  bronze_quarantine_table_path_dev: dbfs://
+  silver_table_path_dev: dbfs://
+  silver_database_dev: dihpoc.trusted
+  silver_table: t1
+  silver_partition_columns: ''
+  silver_cdc_apply_changes:
+    keys:
+    - material_number
+    sequence_by: creation_timestamp
+    scd_type: '1'
+    except_column_list:
+    - _rescued_data
+  silver_join_configuration: ''
+  silver_join_database: dihpoc.trusted
+  silver_transformation_json_dev: "./transformations/ssot_article_product_t1.json"
+- data_flow_id: '101'
+  data_flow_group: Product
+  source_format: cloudFiles
+  source_details:
+    source_path_dev: abfss://landing@sbyccdevemdplandsa.dfs.core.windows.net/sobeys/merchandising/ecc/MARA/2023/02/17/
+  bronze_database_dev: dihpoc.merchandising
+  bronze_table: mean
+  bronze_table_path_dev: dbfs://
+  bronze_reader_options:
+    cloudFiles.format: csv
+    cloudFiles.inferColumnTypes: 'false'
+    cloudFiles.rescuedDataColumn: _rescued_data
+    header: 'true'
+  bronze_data_quality_expectations_json_dev: "./validations/raw_merchandising_ecc__mean_ams.json"
+  bronze_quarantine_table: mean_raw
+  bronze_database_quarantine_dev: dihpoc.quarantine_tables
+  bronze_quarantine_table_path_dev: dbfs://
+  silver_table_path_dev: dbfs://
+  silver_database_dev: dihpoc.trusted
+  silver_table: t2
+  silver_partition_columns: ''
+  silver_cdc_apply_changes:
+    keys:
+    - material_number
+    sequence_by: creation_timestamp
+    scd_type: '1'
+    except_column_list:
+    - _rescued_data
+  silver_join_configuration: ''
+  silver_join_database: dihpoc.trusted
+  silver_transformation_json_dev: "./transformations/ssot_article_product_t2.json"
