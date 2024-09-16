@@ -8,7 +8,7 @@ targets:
     mode: development
     default: true
     workspace:
-      host: https://adb-6192720523591547.7.azuredatabricks.net
+      host: https://dbc-3aa503a9-4fa8.cloud.databricks.com
     git:
       branch: dev
 
@@ -27,7 +27,7 @@ targets:
     # to a path that is not specific to the current user.
     mode: production
     workspace:
-      host: https://adb-6192720523591547.7.azuredatabricks.net
+      host: https://dbc-4a1b905b-5d03.cloud.databricks.com
       root_path: /Shared/.bundle/prod/${bundle.name}
     git:
       branch: main
@@ -35,7 +35,7 @@ targets:
       # This runs as skyler.myers@sobeys.com in production. Alternatively,
       # a service principal could be used here using service_principal_name
       # (see Databricks documentation).
-      user_name: skyler.myers@sobeys.com
+      user_name: skyler@entrada.ai
     resources:
       jobs:
         wf_dih_ecc_mara:
