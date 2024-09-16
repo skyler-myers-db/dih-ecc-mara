@@ -3,7 +3,7 @@ resources:
   jobs:
     wf_dih_ecc_mara:
       run_as:
-        user_name: skyler.myers@sobeys.com
+        user_name: skyler@entrada.ai
 
       name: wf_dih_ecc_mara
 
