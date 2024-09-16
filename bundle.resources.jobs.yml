@@ -105,11 +105,7 @@ resources:
             spark_conf:
               spark.databricks.delta.preview.enabled: 'true'
               spark.sql.shuffle.partitions: 'auto'
-            azure_attributes:
-              first_on_demand: 1
-              availability: ON_DEMAND_AZURE
-              spot_bid_max_price: -1
-            node_type_id: Standard_F4
+            node_type_id: c5ad.4xlarge
             enable_elastic_disk: true
             data_security_mode: SINGLE_USER
             runtime_engine: STANDARD
